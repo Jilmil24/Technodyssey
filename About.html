@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | IEEE Nirma Event 2025</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at 20% 80%, #120458 0%, #000000 50%), 
+                        radial-gradient(circle at 80% 20%, #2D1B69 0%, #000000 50%),
+                        radial-gradient(circle at 40% 40%, #0F0C29 0%, transparent 50%);
+            background-attachment: fixed;
+            color: #E8E3F3;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Grain/Noise Effect */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+            background-image: 
+                repeating-conic-gradient(from 0deg at 1px 1px, rgba(255,255,255,0.1) 0deg 90deg, transparent 90deg 180deg),
+                repeating-conic-gradient(from 90deg at 2px 2px, rgba(255,255,255,0.05) 0deg 90deg, transparent 90deg 180deg),
+                repeating-linear-gradient(0deg, transparent 0px, rgba(255,255,255,0.02) 1px, transparent 2px),
+                repeating-linear-gradient(90deg, transparent 0px, rgba(255,255,255,0.02) 1px, transparent 2px);
+            background-size: 4px 4px, 8px 8px, 3px 3px, 3px 3px;
+            animation: grainMove 3s linear infinite;
+        }
+
+        .grain-overlay.active {
+            opacity: 0.4;
+        }
+
+        @keyframes grainMove {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-1px, -1px) rotate(0.5deg); }
+            50% { transform: translate(1px, -1px) rotate(0deg); }
+            75% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        /* Aurora Effect */
+        .aurora-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            background: linear-gradient(45deg, 
+                transparent 0%, 
+                rgba(64, 224, 208, 0.15) 20%, 
+                rgba(138, 43, 226, 0.2) 40%, 
+                rgba(255, 20, 147, 0.15) 60%, 
+                rgba(0, 191, 255, 0.15) 80%, 
+                transparent 100%
+            );
+            background-size: 400% 400%;
+            animation: auroraMove 10s ease-in-out infinite;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+
+        .aurora-overlay.active {
+            opacity: 1;
+        }
+
+        @keyframes auroraMove {
+            0%, 100% { 
+                background-position: 0% 50%;
+                transform: rotate(0deg);
+            }
+            25% { 
+                background-position: 50% 100%;
+                transform: rotate(1deg);
+            }
+            50% { 
+                background-position: 100% 50%;
+                transform: rotate(0deg);
+            }
+            75% { 
+                background-position: 50% 0%;
+                transform: rotate(-1deg);
+            }
+        }
+
+        /* Effect Toggle */
+        .effect-toggle {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(18, 4, 88, 0.25);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            padding: 16px 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .effect-btn {
+            width: 44px;
+            height: 44px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            background: rgba(139, 92, 246, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            position: relative;
+        }
+
+        .effect-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .effect-btn.active {
+            border-color: #8B5CF6;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(6, 182, 212, 0.2));
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        }
+
+        .effect-btn.standard::after { content: '🌌'; }
+        .effect-btn.grain::after { content: '🌊'; }
+
+        /* Navigation */
+        nav {
+            background: rgba(18, 4, 88, 0.25);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .navbar-logos {
+            display:flex; 
+            gap:16px; 
+            align-items:center; 
+            margin-left:24px;
+        }
+
+        .navbar-logos img {
+            height: 55px; 
+            opacity:0.85;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .nav-links a {
+            color: rgba(232, 227, 243, 0.8);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(139, 92, 246, 0.15);
+            color: #E8E3F3;
+            transform: translateY(-2px);
+        }
+
+        /* Hamburger (mobile) */
+        .hamburger {
+            display: none; /* Hidden by default, shown in media queries */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1201; /* Above sidebar */
+        }
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 4px;
+            margin: 3px 0;
+            background: #8B5CF6;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* Sidebar (mobile menu) */
+        .sidebar {
+            display: none; /* Hidden by default, shown with JS */
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 220px;
+            height: 100vh;
+            background: rgba(18, 4, 88, 0.98); /* Near-opaque background */
+            box-shadow: -2px 0 16px rgba(0,0,0,0.18);
+            z-index: 1200;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 2rem 1.2rem 1.2rem 1.2rem;
+            transform: translateX(100%); /* Start off-screen */
+            transition: transform 0.3s ease;
+        }
+        .sidebar.active {
+            display: flex;
+            transform: translateX(0); /* Slide in */
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0 0 0;
+            width: 100%;
+        }
+        .sidebar ul li {
+            margin-bottom: 1.5rem;
+        }
+        .sidebar ul li a {
+            color: #E8E3F3;
+            font-size: 1.2rem;
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            padding: 0.5rem 0;
+            transition: color 0.2s ease;
+        }
+        .sidebar ul li a:hover {
+            color: #8B5CF6;
+        }
+        .close-sidebar {
+            background: none;
+            border: none;
+            color: #8B5CF6;
+            font-size: 2.2rem;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .close-sidebar:hover {
+            transform: rotate(90deg);
+        }
+
+
+        /* Main Content */
+        main {
+            margin-top: 100px;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+            margin-bottom: 4rem;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif; /* Using Orbitron for techy feel */
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8B5CF6, #06B6D4); /* Purple to Cyan gradient */
+            background-size: 300% 300%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            animation: gradientShift 5s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(139, 92, 246, 0.7), 0 0 20px rgba(6, 182, 212, 0.5); /* Glow matching gradient */
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: rgba(232, 227, 243, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .content-section:nth-child(2) { animation-delay: 0.2s; }
+        .content-section:nth-child(3) { animation-delay: 0.4s; }
+        .content-section:nth-child(4) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-family: 'Roboto Slab', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8B5CF6, #06B6D4);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(139, 92, 246, 0.6), 0 0 15px rgba(6, 182, 212, 0.4); /* Subtle glow */
+        }
+
+        .section-text {
+            font-size: 1.1rem;
+            color: rgba(232, 227, 243, 0.8);
+            line-height: 1.7;
+            margin-bottom: 3rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .glass-card {
+            background: rgba(18, 4, 88, 0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease, box-shadow 0.5s ease; /* Added box-shadow to transition */
+            position: relative;
+            overflow: hidden;
+            /* Initial subtle glow/shadow for separation */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), 
+                        0 0 10px rgba(139, 92, 246, 0.3);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #8B5CF6, #06B6D4);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .glass-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            /* Enhanced glow on hover */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 
+                        0 0 25px rgba(139, 92, 246, 0.6), 
+                        0 0 40px rgba(6, 182, 212, 0.4); /* Multi-color glow */
+            border-color: #8B5CF6; /* Border highlights on hover */
+        }
+
+        .card-title {
+            font-family: 'Roboto Slab', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #E8E3F3;
+            text-shadow: 0 0 5px rgba(232, 227, 243, 0.3); /* Subtle text glow for card titles */
+        }
+
+        .card-text {
+            color: rgba(232, 227, 243, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(18, 4, 88, 0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 8px rgba(139, 92, 246, 0.2); /* Subtle initial glow */
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 
+                        0 0 20px rgba(139, 92, 246, 0.5); /* Enhanced glow on hover */
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8B5CF6, #06B6D4);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 8px rgba(139, 92, 246, 0.6); /* Glow for numbers */
+        }
+
+        .stat-label {
+            color: rgba(232, 227, 243, 0.7);
+            font-weight: 500;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: rgba(18, 4, 88, 0.2);
+            border-radius: 30px;
+            padding: 3rem;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .team-photo {
+            max-width: 400px;
+            width: 100%;
+            height: 250px; /* Fixed height for consistency */
+            object-fit: cover; /* Ensures image covers the area */
+            border-radius: 20px;
+            margin: 1.5rem auto;
+            border: 3px solid #8B5CF6;
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+            display: block;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .team-photo:hover {
+            transform: scale(1.02);
+            box-shadow: 0 30px 60px rgba(139, 92, 246, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .effect-toggle {
+                right: 15px;
+                padding: 12px 10px;
+            }
+            .effect-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Smooth animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Responsive adjustments for navigation and general layout */
+        @media (max-width: 900px) {
+            .nav-container {
+                flex-direction: row;
+                gap: 0.5rem;
+                padding: 0.5rem 0;
+            }
+            .navbar-logos {
+                margin-left: 0 !important;
+                gap: 10px !important;
+                justify-content: center;
+            }
+            .navbar-logos img {
+                height: 40px !important;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hamburger {
+                display: flex; /* Show hamburger */
+            }
+        }
+        @media (max-width: 600px) {
+            nav {
+                height: auto !important;
+                padding: 0.5rem 0.5rem !important;
+            }
+            .nav-container {
+                flex-direction: row;
+                gap: 0.2rem;
+                padding: 0.2rem 0;
+            }
+            .navbar-logos {
+                flex-direction: row;
+                gap: 6px !important;
+                margin-left: 0 !important;
+                justify-content: center;
+            }
+            .navbar-logos img {
+                height: 28px !important;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            .team-section {
+                padding: 0.7rem;
+            }
+            .team-photo {
+                max-width: 98vw;
+                width: 98vw;
+                height: auto; /* Allow height to adjust for smaller screens */
+                margin: 1rem auto;
+            }
+            .content-section, .section-title, .section-text {
+                text-align: center !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+        }
+
+        /* Footer styles from previous code, ensuring consistency */
+        .footer {
+            width: 100%;
+            background: rgba(18, 4, 88, 0.25);
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 1.5rem 0 1rem 0;
+            margin-top: 3rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: row !important;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem !important;
+            width: 100%;
+        }
+        .footer-link {
+            margin: 0 0.7rem !important;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 8px;
+        }
+        .footer-link:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 18px #8B5CF6;
+            background: rgba(139, 92, 246, 0.08);
+        }
+        .footer-email {
+            display: none;
+        }
+        @media (max-width: 900px) {
+            .footer-content {
+                flex-direction: row !important;
+                gap: 0.5rem !important;
+            }
+        }
+        @media (max-width: 600px) {
+            .footer-content {
+                flex-direction: row !important;
+                gap: 0.3rem !important;
+            }
+            .footer-link {
+                margin: 0 0.3rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grain-overlay" id="grainOverlay"></div>
+    <div class="aurora-overlay" id="auroraOverlay"></div>
+
+    <div class="effect-toggle">
+        <button class="effect-btn standard active" onclick="setEffect('standard')" title="Standard Mode"></button>
+        <button class="effect-btn grain" onclick="setEffect('grain')" title="Aurora + Grain Effect"></button>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <div class="navbar-logos">
+                <img src="IEEE_logo.jpg" alt="IEEE">
+                <img src="nirma_logo.jpg" alt="Nirma University">
+            </div>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="Home.html" class="nav-link">Home</a></li>
+                <li><a href="Events.html" class="nav-link">Events</a></li>
+                <li><a href="About.html" class="nav-link active">About Us</a></li>
+            </ul>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <button class="close-sidebar" id="closeSidebar" aria-label="Close menu">&times;</button>
+            <ul>
+                <li><a href="Home.html">Home</a></li>
+                <li><a href="Events.html">Events</a></li>
+                <li><a href="About.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <section class="hero-section">
+                <h1 class="hero-title floating">About IEEE</h1>
+                <p class="hero-subtitle">Advancing Technology for Humanity Through Innovation and Excellence</p>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">What is IEEE?</h2>
+                <p class="section-text">
+                    The Institute of Electrical and Electronics Engineers (IEEE) is the world's largest technical professional organization dedicated to advancing technology for humanity. With over 400,000 members worldwide, IEEE drives innovation through cutting-edge research, industry standards, and educational initiatives.
+                </p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">400K+</div>
+                        <div class="stat-label">Global Members</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">160+</div>
+                        <div class="stat-label">Countries</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">1300+</div>
+                        <div class="stat-label">Standards</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">200+</div>
+                        <div class="stat-label">Journals</div>
+                    </div>
+                </div>
+                <div class="cards-grid">
+                    <div class="glass-card">
+                        <h3 class="card-title">🎯 Our Mission</h3>
+                        <p class="card-text">
+                            To foster technological innovation and excellence for the benefit of humanity through world-class research, industry partnerships, and educational programs.
+                        </p>
+                    </div>
+                    <div class="glass-card">
+                        <h3 class="card-title">🌟 Our Vision</h3>
+                        <p class="card-text">
+                            IEEE is the trusted voice for engineering, computing, and technology professionals worldwide, shaping the future of technology.
+                        </p>
+                    </div>
+                    <div class="glass-card">
+                        <h3 class="card-title">🚀 Our Impact</h3>
+                        <p class="card-text">
+                            From WiFi to self-driving cars, IEEE standards and innovations power the technologies that connect and improve our world.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="content-section">
+                <div class="team-section">
+                    <h2 class="section-title">Meet Our Dedicated Team</h2>
+                    <p class="section-text">
+                        Behind every successful event is an exceptional team dedicated to bringing visions to life. From initial concepts to meticulous execution, our diverse members and contributors work tirelessly to create unforgettable experiences that inspire, educate, and connect the tech community. Their diverse skills and unwavering commitment are the driving force behind everything we do.
+                    </p>
+                    <div class="cards-grid">
+                        <div class="glass-card">
+                            <img src="ieee_team_2.jpg" alt="IEEE Organizing Team" class="team-photo">
+                            <h3 class="card-title">Our Core Committee</h3>
+                            <p class="card-text">The dedicated individuals who meticulously plan and execute every aspect of TechnOdyssey 2025.</p>
+                        </div>
+                        <div class="glass-card">
+                            <img src="ieee_team.jpg" alt="IEEE Event Contributors" class="team-photo">
+                            <h3 class="card-title">Our Community</h3>
+                            <p class="card-text">The passionate network of IEEE members and contributors. </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Effect Management
+        function setEffect(effectType) {
+            document.querySelectorAll('.effect-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.effect-btn.${effectType}`).classList.add('active');
+            document.querySelectorAll('.grain-overlay, .aurora-overlay').forEach(o => o.classList.remove('active'));
+            if (effectType === 'grain') {
+                document.getElementById('grainOverlay').classList.add('active');
+                document.getElementById('auroraOverlay').classList.add('active');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => setEffect('standard'));
+
+        // Hamburger/Sidebar functionality
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
+        hamburgerBtn.addEventListener('click', function() {
+            sidebar.classList.add('active');
+            hamburgerBtn.style.display = 'none';
+        });
+        closeSidebar.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            hamburgerBtn.style.display = 'flex';
+        });
+        window.addEventListener('click', function(e) {
+            if (e.target === sidebar) {
+                sidebar.classList.remove('active');
+                hamburgerBtn.style.display = 'flex';
+            }
+        });
+    </script>
+    <footer class="footer">
+        <div class="footer-content">
+            <a href="https://www.linkedin.com/company/ieee-student-branch-nirma-university/?originalSubdomain=in" target="_blank" rel="noopener" class="footer-link" title="LinkedIn">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm15.5 11.268h-3v-5.604c0-1.337-.025-3.063-1.868-3.063-1.868 0-2.154 1.459-2.154 2.967v5.7h-3v-10h2.881v1.367h.041c.401-.761 1.379-1.563 2.838-1.563 3.034 0 3.595 1.997 3.595 4.59v5.606z" fill="#8B5CF6"/></svg>
+            </a>
+            <a href="https://www.instagram.com/ieeenirma/" target="_blank" rel="noopener" class="footer-link" title="Instagram">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.974-.974 2.242-1.246 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.012-4.947.07-1.276.058-2.687.334-3.682 1.329-.995.995-1.271 2.406-1.329 3.682-.058 1.28-.07 1.688-.07 4.947s.012 3.667.07 4.947c.058 1.276.334 2.687 1.329 3.682.995.995 2.406 1.271 3.682 1.329 1.28.058 1.688.07 4.947.07s3.667-.012 4.947-.07c1.276-.058 2.687-.334 3.682-1.329.995-.995 1.271-2.406 1.329-3.682-.058-1.276-.07-1.688-.07-4.947s-.012-3.667-.07-4.947c-.058-1.276-.334-2.687-1.329-3.682-.995-.995-2.406-1.271-3.682-1.329-1.28-.058-1.688-.07-4.947-.07zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z" fill="#8B5CF6"/></svg>
+            </a>
+            <a href="mailto:ieee@nirmaun.ac.in" class="footer-link" title="Email">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><path d="M2 4.5A2.5 2.5 0 0 1 4.5 2h15A2.5 2.5 0 0 1 22 4.5v15A2.5 2.5 0 0 1 19.5 22h-15A2.5 2.5 0 0 1 2 19.5v-15Zm2.06.94A.5.5 0 0 0 4 5.5v.08l8 6.4 8-6.4V5.5a.5.5 0 0 0-.06-.06A.5.5 0 0 0 19.5 5h-15a.5.5 0 0 0-.44.44ZM20 7.92l-7.47 5.98a1 1 0 0 1-1.06 0L4 7.92V19.5c0 .28.22.5.5.5h15a.5.5 0 0 0 .5-.5V7.92Z" fill="#8B5CF6"/></svg>
+            </a>
+        </div>
+    </footer>
