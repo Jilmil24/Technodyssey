@@ -529,24 +529,18 @@
                 justify-content: center;
             }
             .home-poster {
-                /* Remove !important flags where possible to allow better cascade */
-                max-width: 100%; /* Ensure it never exceeds its parent's width */
-                width: 100%; /* Take up full width of its container */
-                height: auto; /* Maintain aspect ratio */
-                display: block; /* Remove any inline display issues */
-                margin: 0 auto; /* Center the image if its container is wider than 100% of body */
-
-                /* Remove left and transform as max-width and margin: auto handle centering better */
-                /* left: 50%; */
-                /* transform: translateX(-50%); */
-
-                /* Flexible height constraints */
-                min-height: auto; /* Let content dictate minimal height naturally */
-                max-height: 40vh; /* Set a max height relative to viewport height for larger images on mobile */
-                object-fit: contain; /* Ensures the *entire* image is visible, scaling it down if needed */
-                /* If you want it to FILL the space and crop the image itself, use 'cover' */
-                /* object-fit: cover; */
-            }
+            width: 100vw; /* Make it 100% of the viewport width */
+            display: block;
+            margin-top: 0; /* Ensure no gap below nav */
+            margin-bottom: 0; /* Ensure no gap above scrolling text */
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px; /* Apply border-radius here as it's a direct child of main */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5);
+            object-fit: cover; /* Use cover to fill the width, might crop vertically */
+            height: auto; /* Allow height to adjust naturally, or set a fixed height if needed */
+        }
 
             .scrolling-text-content {
                 font-size: 1.2rem; /* Adjust font size for mobile */
