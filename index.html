@@ -529,14 +529,25 @@
                 justify-content: center;
             }
             .home-poster {
-                max-width: 60vw !important; /* Allow full width on mobile too */
-                width: 60vw !important;
-                height: auto !important; /* Ensure height scales properly */
-                margin: 0 !important; /* No margins on mobile too */
-                left: 50%; /* Keep centering for 100vw */
-                transform: translateX(-50%);
-                min-height: 200px !important; /* Ensure minimum height on mobile */
+                /* Remove !important flags where possible to allow better cascade */
+                max-width: 100%; /* Ensure it never exceeds its parent's width */
+                width: 100%; /* Take up full width of its container */
+                height: auto; /* Maintain aspect ratio */
+                display: block; /* Remove any inline display issues */
+                margin: 0 auto; /* Center the image if its container is wider than 100% of body */
+
+                /* Remove left and transform as max-width and margin: auto handle centering better */
+                /* left: 50%; */
+                /* transform: translateX(-50%); */
+
+                /* Flexible height constraints */
+                min-height: auto; /* Let content dictate minimal height naturally */
+                max-height: 40vh; /* Set a max height relative to viewport height for larger images on mobile */
+                object-fit: contain; /* Ensures the *entire* image is visible, scaling it down if needed */
+                /* If you want it to FILL the space and crop the image itself, use 'cover' */
+                /* object-fit: cover; */
             }
+
             .scrolling-text-content {
                 font-size: 1.2rem; /* Adjust font size for mobile */
                 animation-duration: 15s; /* Faster scroll on mobile */
