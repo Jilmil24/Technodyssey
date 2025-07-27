@@ -17,6 +17,8 @@
 
         body {
             font-family: 'Poppins', sans-serif;
+            /* Ensure a dark base color in case gradients or fixed attachment are optimized away on mobile */
+            background: #000000; /* Fallback solid black */
             background: radial-gradient(circle at 20% 80%, #120458 0%, #000000 50%),
                         radial-gradient(circle at 80% 20%, #2D1B69 0%, #000000 50%),
                         radial-gradient(circle at 40% 40%, #0F0C29 0%, transparent 50%);
@@ -272,7 +274,9 @@
             gap: 2.5rem; /* Increased gap */
         }
         .event-card {
-            background: rgba(18, 4, 88, 0.15);
+            /* Fallback background for cards if backdrop-filter is problematic */
+            background: rgba(18, 4, 88, 0.4); /* Slightly darker solid base */
+            background: rgba(18, 4, 88, 0.15); /* Original for devices that support blur well */
             backdrop-filter: blur(20px); /* Increased blur for better separation */
             border: 1px solid rgba(139, 92, 246, 0.2);
             border-radius: 20px;
@@ -435,7 +439,9 @@
         }
 
         .modal-content {
-            background: rgba(18, 4, 88, 0.2);
+            /* Fallback background for cards if backdrop-filter is problematic */
+            background: rgba(18, 4, 88, 0.5); /* Slightly darker solid base */
+            background: rgba(18, 4, 88, 0.2); /* Original for devices that support blur well */
             backdrop-filter: blur(25px);
             padding: 2.8rem; /* Increased padding */
             border-radius: 22px; /* Slightly more rounded */
@@ -649,6 +655,90 @@
                 width: 100%; /* Take full width to ensure centering */
             }
         }
+        
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none; /* Hidden by default, shown on smaller screens via media query */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1201; /* Above other nav elements */
+            margin-right: 10px; /* Add some spacing from the right edge */
+        }
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 3px;
+            margin: 3px 0;
+            background: #8B5CF6; /* Purple color for hamburger lines */
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        .sidebar {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 250px; /* Increased width slightly */
+            height: 100vh;
+            background: rgba(18, 4, 88, 0.98); /* Dark background with slight transparency */
+            backdrop-filter: blur(15px); /* Apply blur to sidebar too */
+            box-shadow: -4px 0 20px rgba(0,0,0,0.3); /* Stronger shadow */
+            z-index: 1200;
+            flex-direction: column;
+            align-items: flex-start; /* Align text to the left */
+            padding: 2.5rem 1.5rem; /* Increased padding */
+            transform: translateX(100%); /* Start off-screen */
+            transition: transform 0.3s ease-out; /* Smooth slide transition */
+            border-left: 1px solid rgba(139, 92, 246, 0.3); /* Subtle border */
+        }
+        .sidebar.active {
+            display: flex; /* Show when active */
+            transform: translateX(0); /* Slide into view */
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0 0 0;
+            width: 100%;
+        }
+        .sidebar ul li {
+            margin-bottom: 1.8rem; /* Increased spacing */
+        }
+        .sidebar ul li a {
+            color: #E8E3F3;
+            font-size: 1.3rem; /* Increased font size */
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            padding: 0.8rem 0; /* Increased padding for clickable area */
+            transition: color 0.2s ease, background 0.2s ease;
+            border-radius: 8px;
+        }
+        .sidebar ul li a:hover {
+            color: #00FFFF; /* Cyan on hover */
+            background: rgba(139, 92, 246, 0.1); /* Slight background on hover */
+        }
+        .close-sidebar {
+            background: none;
+            border: none;
+            color: #00FFFF; /* Cyan for close button */
+            font-size: 2.5rem; /* Larger close button */
+            position: absolute;
+            top: 0.8rem;
+            right: 0.8rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .close-sidebar:hover {
+            transform: rotate(90deg); /* Spin on hover */
+        }
+
         .footer-content {
             display: flex;
             flex-direction: row;
@@ -699,6 +789,31 @@
             box-shadow: 0 4px 18px #8B5CF6;
         }
         /* --- End Styles --- */
+
+        /* Responsive adjustments for navigation */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none; /* Hide regular nav links */
+            }
+            .hamburger {
+                display: flex; /* Show hamburger button */
+            }
+            .nav-container {
+                justify-content: space-between; /* Space out logo and hamburger */
+                padding: 1rem 1rem; /* Adjust padding for smaller screens */
+            }
+        }
+        @media (min-width: 901px) {
+            .nav-links {
+                display: flex; /* Ensure nav links are visible on larger screens */
+            }
+            .hamburger {
+                display: none; /* Hide hamburger button */
+            }
+            .sidebar {
+                display: none !important; /* Ensure sidebar is hidden on large screens */
+            }
+        }
     </style>
 </head>
 <body>
@@ -716,14 +831,25 @@
                 <img src="IEEE_logo.jpg" alt="IEEE" style="height:55px; opacity:0.85;">
                 <img src="nirma_logo.jpg" alt="Nirma University" style="height:55px; opacity:0.85;">
             </div>
-            
+            <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="Home.html" class="nav-link">Home</a></li>
                 <li><a href="Events.html" class="nav-link active">Events</a></li>
                 <li><a href="About.html" class="nav-link">About Us</a></li>
             </ul>
         </div>
-        
+        <div class="sidebar" id="sidebar">
+            <button class="close-sidebar" id="closeSidebar" aria-label="Close menu">&times;</button>
+            <ul>
+                <li><a href="Home.html">Home</a></li>
+                <li><a href="Events.html">Events</a></li>
+                <li><a href="About.html">About Us</a></li>
+            </ul>
+        </div>
     </nav>
 
     <main>
@@ -907,7 +1033,7 @@
         const detailsPoster = document.getElementById('detailsPoster');
         const detailsModalRegisterBtn = document.getElementById('detailsModalRegisterBtn'); // Get the register button inside the modal
 
-        // UPDATED posterMap to include registration links
+        // UPDATED eventData to include unique registration links for each event
         const eventData = {
             'Cloud Computing': {
                 poster: 'AWS_CloudComputing_detail.png',
@@ -919,16 +1045,15 @@
             },
             'Game Dev 101': {
                 poster: 'gamedev_detail.png',
-                registerLink: 'https://forms.gle/8DQh5JkdzJeMDySeA'
+                registerLink: 'https://forms.gle/8DQh5JkdzJeMDySeA' // Make sure this is the correct link for Game Dev 101
             },
             'DeCode the Blockchain': {
                 poster: 'blockchain_details.png',
                 registerLink: 'https://docs.google.com/forms/d/e/1FAIpQLSchyt2HO7Oz4EsloF9GPWfImRRL1xoy-V8fOJ_QH8vxOHIR2w/viewform?usp=header'
             },
-            // Add more events here as they become available, with their unique posters and links
             'More Events Coming Soon...': {
                 poster: '', // No specific poster for coming soon
-                registerLink: '#' // Or a general "notify me" link
+                registerLink: '#' // Or a general "notify me" link for future events
             }
         };
 
@@ -972,25 +1097,26 @@
             setEffect('standard');
         });
 
-        // Hamburger/Sidebar functionality (Note: hamburger button and sidebar elements are not present in this HTML,
-        // but the JS is kept here in case they are added back from a previous version or in a separate file.)
-        const hamburgerBtn = document.getElementById('hamburgerBtn'); // This will be null if not in HTML
-        const sidebar = document.getElementById('sidebar'); // This will be null if not in HTML
-        const closeSidebar = document.getElementById('closeSidebar'); // This will be null if not in HTML
+        // Hamburger/Sidebar functionality
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
 
-        if (hamburgerBtn && sidebar && closeSidebar) { // Only run if elements exist
+        if (hamburgerBtn && sidebar && closeSidebar) { 
             hamburgerBtn.addEventListener('click', function() {
                 sidebar.classList.add('active');
-                hamburgerBtn.style.display = 'none';
+                // You might want to hide the scrollbar when sidebar is open
+                document.body.style.overflow = 'hidden'; 
             });
             closeSidebar.addEventListener('click', function() {
                 sidebar.classList.remove('active');
-                hamburgerBtn.style.display = 'flex';
+                document.body.style.overflow = ''; // Restore scrollbar
             });
+            // Close sidebar if clicking outside of it (but not on hamburger itself)
             window.addEventListener('click', function(e) {
-                if (e.target === sidebar) {
+                if (sidebar.classList.contains('active') && !sidebar.contains(e.target) && e.target !== hamburgerBtn && !hamburgerBtn.contains(e.target)) {
                     sidebar.classList.remove('active');
-                    hamburgerBtn.style.display = 'flex';
+                    document.body.style.overflow = '';
                 }
             });
         }
